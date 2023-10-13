@@ -5,6 +5,8 @@ import 'package:speeder_sign_flutter/count/count_page_one/binding.dart';
 import 'package:speeder_sign_flutter/count/count_page_one/view.dart';
 import 'package:speeder_sign_flutter/count/count_page_tow/binding.dart';
 import 'package:speeder_sign_flutter/count/count_page_tow/view.dart';
+import 'package:speeder_sign_flutter/home/binding.dart';
+import 'package:speeder_sign_flutter/home/view.dart';
 import 'package:speeder_sign_flutter/login/binding.dart';
 import 'package:speeder_sign_flutter/login/view.dart';
 
@@ -17,10 +19,12 @@ class MyRouteConfig {
   static const pageTow = "/page2";
 
   static const login = "/login";
+  static const home = "/home";
 
   static final List<GetPage<dynamic>> routes = [
     GetPage(name: root, page: () => CountPageOnePage(), binding: CountPageOneBinding()),
     GetPage(name: pageTow, page: () => CountPageTowPage(), binding: CountPageTowBinding()),
     GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
+    GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
   ];
 }

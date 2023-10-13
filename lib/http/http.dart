@@ -11,6 +11,7 @@ final dio = Dio(
     baseUrl: "https://www.speeder.one/",
     receiveTimeout: Duration(seconds: 10),
     connectTimeout: Duration(seconds: 10),
+    sendTimeout: Duration(seconds: 10)
   )
 );
 
