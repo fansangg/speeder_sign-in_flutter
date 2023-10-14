@@ -11,12 +11,13 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff111111),
       appBar: AppBar(
         title: const Text(
           '登录',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Color(0xffd8d8d8)),
         ),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: const Color(0xff181818),
         centerTitle: true,
       ),
       body: WillPopScope(
