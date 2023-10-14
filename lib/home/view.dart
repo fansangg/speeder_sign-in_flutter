@@ -11,13 +11,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xff111111),
       appBar: AppBar(
-        title: const Text('Home'),
+        title: const Text(
+          'Home',
+          style: TextStyle(color: Color(0xffd8d8d8)),
+        ),
+        backgroundColor: const Color(0xff181818),
       ),
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 14),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
             child: Row(
               children: [
                 Expanded(child: infoCard(Icons.access_time_filled, "会员时长", "222天", "高级会员：2023-11-11")),
@@ -35,50 +40,55 @@ class HomePage extends StatelessWidget {
 
   Widget infoCard(IconData icon, String title, String content, String des) {
     return Card(
-      color: Colors.white,
+      color: const Color(0xff242424),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: SizedBox(
-        height: 150,
+        height: 130,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 15, 12, 15),
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Icon(
-                    icon,
-                    size: 80,
-                    color: Colors.lightBlue,
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          title,
-                          style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black38),
-                        ),
-                        Text(
-                          content,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black87),
-                        ),
-                      ],
+              Flexible(
+                flex: 3,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      icon,
+                      size: 50,
+                      color: Colors.lightBlue,
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Expanded(
-                child: Center(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                    color: Colors.blueGrey[200],
-                    child: Text(
-                      des,
-                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black54),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            title,
+                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xff5d5d5d)),
+                          ),
+                          Text(
+                            content,
+                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xffd8d8d8)),
+                          ),
+                        ],
+                      ),
                     ),
+                  ],
+                ),
+              ),
+              Flexible(
+                flex: 2,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    color: const Color(0xFF616b8f),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                  child: Text(
+                    des,
+                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white54),
+                    maxLines: 1,
                   ),
                 ),
               ),
