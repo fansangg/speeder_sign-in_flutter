@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart' hide FormData;
 import 'package:get_storage/get_storage.dart';
 import 'package:speeder_sign_flutter/dialog/loading.dart';
@@ -22,7 +23,7 @@ class LoginLogic extends GetxController {
 
   void login() async {
     if (account.isEmpty || psw.isEmpty) {
-      Get.snackbar('', '用户名或密码不能为空', titleText: null, backgroundColor: Colors.white);
+      Fluttertoast.showToast(msg: "用户名或密码不能为空");
     } else {
       Get.dialog(loadingDialog("正在登录中.."), barrierDismissible: false);
       var formData = FormData.fromMap({"email": account, "passwd": psw, "code": "", "remember_me": "on"});
@@ -40,14 +41,14 @@ class LoginLogic extends GetxController {
             GetStorage().write("isLogin", true);
             Get.offNamed(MyRouteConfig.home);
           } else {
-            Get.snackbar('', '${bean.msg}', titleText: null, backgroundColor: Colors.white);
+            Fluttertoast.showToast(msg: bean.msg??"");
           }
         } else {
           //var userRet = await dio.get(loginRet.headers['location']![0]);
         }
       } on DioException catch (e) {
         Get.back();
-        Get.snackbar('', '${e.message}', titleText: null, backgroundColor: Colors.white);
+        Fluttertoast.showToast(msg: e.message??"");
       }
     }
   }

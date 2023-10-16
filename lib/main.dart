@@ -22,10 +22,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'sign',
+      themeMode: ThemeMode.system,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark(useMaterial3: true),
       initialRoute: GetStorage().read("isLogin")??false ? MyRouteConfig.home : MyRouteConfig.login,
       getPages: MyRouteConfig.routes,
     );
