@@ -61,9 +61,11 @@ class LoginPage extends StatelessWidget {
       child: TextField(
         decoration: const InputDecoration(
           hintText: "请输入账号",
+          hintStyle: TextStyle(color: Colors.white60),
           contentPadding: EdgeInsets.symmetric(horizontal: 12),
           border: InputBorder.none,
         ),
+        style: const TextStyle(color: Colors.white70),
         maxLines: 1,
         onChanged: (_) {
           logic.account = _;
@@ -82,10 +84,12 @@ class LoginPage extends StatelessWidget {
       child: TextField(
         decoration: const InputDecoration(
           hintText: "请输入密码",
+          hintStyle: TextStyle(color: Colors.white60),
           contentPadding: EdgeInsets.symmetric(horizontal: 12),
           border: InputBorder.none,
         ),
         obscureText: true,
+        style: const TextStyle(color: Colors.white70),
         maxLines: 1,
         onChanged: (_) {
           logic.psw = _;

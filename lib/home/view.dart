@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:speeder_sign_flutter/home/home_item_bean.dart';
+import 'package:speeder_sign_flutter/route/route_config.dart';
 
 import 'logic.dart';
 
@@ -14,9 +15,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xff111111),
       appBar: AppBar(
-        title: const Text(
-          'Home',
-          style: TextStyle(color: Color(0xffd8d8d8)),
+        title: GestureDetector(
+          onTap: () {
+            Get.toNamed(MyRouteConfig.history);
+          },
+          child: const Text(
+            'Home',
+            style: TextStyle(color: Color(0xffd8d8d8)),
+          ),
         ),
         backgroundColor: const Color(0xff181818),
       ),
@@ -25,8 +31,11 @@ class HomePage extends StatelessWidget {
             ? loading()
             : Column(
                 children: [
+                  SizedBox.fromSize(
+                    size: const Size(0, 12),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                     child: Row(
                       children: [
                         Expanded(child: Obx(() => infoCard(Icons.access_time_filled, logic.vipTime.value))),
@@ -37,11 +46,8 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
                     child: Row(
                       children: [
                         Expanded(child: Obx(() => infoCard(Icons.account_box_sharp, logic.online.value))),
@@ -56,7 +62,6 @@ class HomePage extends StatelessWidget {
               );
       }),
       floatingActionButton: checkBtn(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 
@@ -70,6 +75,7 @@ class HomePage extends StatelessWidget {
 
   Widget infoCard(IconData icon, HomeItemBean bean) {
     return Card(
+      elevation: 10,
       color: const Color(0xff242424),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: SizedBox(
@@ -133,9 +139,29 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget checkBtn(){
-    return SizedBox.fromSize(size: const Size(50, 50),child:
-        ElevatedButton(onPressed: (){}, child:const Icon(Icons.add_card,color:Color(0xFF616b8f),))
-      ,);
+  Widget _newsItem(String content) {
+    return Card(
+      color: const Color(0xff242424),
+      elevation: 10,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Text(
+          content,
+          style: const TextStyle(color: Color(0xff5d5d5d), fontSize: 15),
+        ),
+      ),
+    );
+  }
+
+  Widget checkBtn() {
+    return Obx(() {
+      return FloatingActionButton.extended(
+        onPressed: () => logic.checkIn(),
+        label: Text(logic.checkState.value ? "签到" : "已签到"),
+        icon: const Icon(Icons.check_circle_rounded),
+        backgroundColor: const Color(0xFF616b8f),
+      );
+    });
   }
 }
