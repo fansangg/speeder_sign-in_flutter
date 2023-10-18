@@ -109,7 +109,6 @@ class HomeLogic extends GetxController {
         }
       }
     });
-    print("homeNewsList == $homeNewsList");
   }
 
   @override

@@ -29,36 +29,45 @@ class HomePage extends StatelessWidget {
       body: Obx(() {
         return logic.loadingState.value
             ? loading()
-            : Column(
-                children: [
-                  SizedBox.fromSize(
-                    size: const Size(0, 12),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-                    child: Row(
+            : ListView.builder(
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
                       children: [
-                        Expanded(child: Obx(() => infoCard(Icons.access_time_filled, logic.vipTime.value))),
-                        const SizedBox(
-                          width: 12,
+                        Row(
+                          children: [
+                            Expanded(child: Obx(() => infoCard(Icons.access_time_filled, logic.vipTime.value))),
+                            Expanded(child: Obx(() => infoCard(Icons.ac_unit, logic.usage.value))),
+                          ],
                         ),
-                        Expanded(child: Obx(() => infoCard(Icons.ac_unit, logic.usage.value))),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 12),
-                    child: Row(
-                      children: [
-                        Expanded(child: Obx(() => infoCard(Icons.account_box_sharp, logic.online.value))),
-                        const SizedBox(
-                          width: 12,
+                        Row(
+                          children: [
+                            Expanded(child: Obx(() => infoCard(Icons.account_box_sharp, logic.online.value))),
+                            Expanded(child: Obx(() => infoCard(Icons.wallet, logic.wallet.value)))
+                          ],
                         ),
-                        Expanded(child: Obx(() => infoCard(Icons.wallet, logic.wallet.value)))
                       ],
-                    ),
-                  ),
-                ],
+                    );
+                  } else if (index == 1) {
+                    return Container(
+                      height: 30,
+                      alignment: Alignment.center,
+                      child: const Text(
+                        "公告",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.white60,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    );
+                  } else {
+                    var bean = logic.homeNewsList[index - 1];
+                    return _newsItem(bean.title ?? "", bean.content.join());
+                  }
+                },
+                itemCount: logic.homeNewsList.length + 2,
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
               );
       }),
       floatingActionButton: checkBtn(),
@@ -139,16 +148,27 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _newsItem(String content) {
+  Widget _newsItem(String title, String content) {
     return Card(
       color: const Color(0xff242424),
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
         padding: const EdgeInsets.all(12),
-        child: Text(
-          content,
-          style: const TextStyle(color: Color(0xff5d5d5d), fontSize: 15),
+        child: Column(
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, color: Colors.white60, fontWeight: FontWeight.w700),
+            ),
+            const SizedBox(
+              height: 12,
+            ),
+            Text(
+              content,
+              style: const TextStyle(fontSize: 12, color: Colors.white70, fontWeight: FontWeight.w500),
+            ),
+          ],
         ),
       ),
     );
