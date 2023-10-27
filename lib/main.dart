@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-        useMaterial3: true,
+        useMaterial3: false,
       ),
       darkTheme: ThemeData.dark(useMaterial3: true),
       initialRoute: GetStorage().read<bool>("isLogin") ?? false ? MyRouteConfig.home : MyRouteConfig.login,

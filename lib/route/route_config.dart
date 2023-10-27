@@ -5,7 +5,6 @@ import 'package:speeder_sign_flutter/count/count_page_one/binding.dart';
 import 'package:speeder_sign_flutter/count/count_page_one/view.dart';
 import 'package:speeder_sign_flutter/count/count_page_tow/binding.dart';
 import 'package:speeder_sign_flutter/count/count_page_tow/view.dart';
-import 'package:speeder_sign_flutter/history/binding.dart';
 import 'package:speeder_sign_flutter/history/view.dart';
 import 'package:speeder_sign_flutter/home/binding.dart';
 import 'package:speeder_sign_flutter/home/view.dart';
@@ -30,6 +29,6 @@ class MyRouteConfig {
     GetPage(name: login, page: () => LoginPage(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
     GetPage(name: home, page: () => HomePage(), binding: HomeBinding()),
-    GetPage(name: history, page: () => HistoryPage(), binding: HistoryBinding()),
+    GetPage(name: history, page: () => HistoryPage(),),
   ];
 }

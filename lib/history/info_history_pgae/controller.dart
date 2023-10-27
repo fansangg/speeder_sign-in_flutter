@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 
-class HistoryLogic extends GetxController {
+import 'state.dart';
+
+class InfoHistoryPgaeController extends GetxController {
+  final InfoHistoryPgaeState state = InfoHistoryPgaeState();
+
   @override
   void onReady() {
     // TODO: implement onReady
