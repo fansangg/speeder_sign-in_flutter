@@ -13,64 +13,66 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff111111),
-      appBar: AppBar(
-        title: GestureDetector(
-          onTap: () {
-            Get.toNamed(MyRouteConfig.history);
-          },
-          child: const Text(
-            'Home',
-            style: TextStyle(color: Color(0xffd8d8d8)),
+        backgroundColor: const Color(0xff111111),
+        appBar: AppBar(
+          title: GestureDetector(
+            onTap: () {
+              Get.toNamed(MyRouteConfig.history);
+            },
+            child: const Text(
+              'Home',
+              style: TextStyle(color: Color(0xffd8d8d8)),
+            ),
           ),
+          backgroundColor: const Color(0xff181818),
         ),
-        backgroundColor: const Color(0xff181818),
-      ),
-      body: Obx(() {
-        return logic.loadingState.value
-            ? loading()
-            : ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Column(
+        body: Obx(() {
+          return logic.loadingState.value
+              ? loading()
+              : ListView.builder(
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Column(
+                  children: [
+                    Row(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(child: Obx(() => infoCard(Icons.access_time_filled, logic.vipTime.value))),
-                            Expanded(child: Obx(() => infoCard(Icons.ac_unit, logic.usage.value))),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(child: Obx(() => infoCard(Icons.account_box_sharp, logic.online.value))),
-                            Expanded(child: Obx(() => infoCard(Icons.wallet, logic.wallet.value)))
-                          ],
-                        ),
+                        Expanded(child: infoCard(Icons.access_time_filled, logic.vipTime.value)),
+                        Expanded(child: infoCard(Icons.ac_unit, logic.usage.value)),
                       ],
-                    );
-                  } else if (index == 1) {
-                    return Container(
-                      height: 30,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        "公告",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.white60,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    );
-                  } else {
-                    var bean = logic.homeNewsList[index - 1];
-                    return _newsItem(bean.title ?? "", bean.content.join());
-                  }
-                },
-                itemCount: logic.homeNewsList.length + 2,
-                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-              );
-      }),
-      floatingActionButton: checkBtn(),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(child: infoCard(Icons.account_box_sharp, logic.online.value)),
+                        Expanded(child: infoCard(Icons.wallet, logic.wallet.value))
+                      ],
+                    ),
+                  ],
+                );
+              } else if (index == 1) {
+                return Container(
+                  height: 30,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    "公告",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.white60,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                );
+              } else {
+                var bean = logic.homeNewsList[index - 2];
+                return _newsItem(bean.title ?? "", bean.content.join());
+              }
+            },
+            itemCount: logic.homeNewsList.length + 2,
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+          );
+        }),
+        floatingActionButton: Obx(() {
+          return Visibility(visible: logic.loadingState.isFalse, child: checkBtn());
+        })
     );
   }
 
@@ -175,13 +177,11 @@ class HomePage extends StatelessWidget {
   }
 
   Widget checkBtn() {
-    return Obx(() {
-      return FloatingActionButton.extended(
-        onPressed: () => logic.checkIn(),
-        label: Text(logic.checkState.value ? "签到" : "已签到"),
-        icon: const Icon(Icons.check_circle_rounded),
-        backgroundColor: const Color(0xFF616b8f),
-      );
-    });
+    return FloatingActionButton.extended(
+      onPressed: () => logic.checkIn(),
+      label: Text(logic.checkState.value ? "签到" : "已签到"),
+      icon: const Icon(Icons.check_circle_rounded),
+      backgroundColor: const Color(0xFF616b8f),
+    );
   }
 }

@@ -52,6 +52,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget accountTextField() {
+    var accountController = TextEditingController(text: logic.account);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
@@ -59,6 +60,7 @@ class LoginPage extends StatelessWidget {
         border: Border.all(color: Colors.grey.withAlpha(180)),
       ),
       child: TextField(
+        controller: accountController,
         decoration: const InputDecoration(
           hintText: "请输入账号",
           hintStyle: TextStyle(color: Colors.white60),
@@ -75,6 +77,7 @@ class LoginPage extends StatelessWidget {
   }
 
   Widget pswTextField() {
+    var pswController = TextEditingController(text: logic.psw);
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
@@ -82,6 +85,7 @@ class LoginPage extends StatelessWidget {
         border: Border.all(color: Colors.grey.withAlpha(180)),
       ),
       child: TextField(
+        controller: pswController,
         decoration: const InputDecoration(
           hintText: "请输入密码",
           hintStyle: TextStyle(color: Colors.white60),
