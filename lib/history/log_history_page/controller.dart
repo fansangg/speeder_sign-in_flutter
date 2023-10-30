@@ -6,10 +6,10 @@ import 'state.dart';
 
 class LogHistoryPageController extends GetxController {
   final LogHistoryPageState state = LogHistoryPageState();
-  List<LogEntityData> logEntityData = <LogEntityData>[].obs;
+  var logEntityData = <LogEntityData>[].obs;
 
   void _getLogs() async {
-    logEntityData =  await DBHelper.logDao.getAll;
+    logEntityData.value =  await DBHelper.logDao.getAll;
   }
 
   @override

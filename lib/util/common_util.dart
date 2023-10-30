@@ -10,6 +10,10 @@ extension DateExtension on DateTime {
   String getSimple() {
     return "$year-$month-$day";
   }
+
+  String yYYYMMDDHHMMSS() {
+    return "$year-$month-$day $hour:$minute:$second";
+  }
 }
 
 extension WidgetExt on Widget {

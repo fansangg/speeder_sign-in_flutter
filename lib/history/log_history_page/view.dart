@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:speeder_sign_flutter/util/common_util.dart';
 
 import 'controller.dart';
 
@@ -9,8 +10,44 @@ class LogHistoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LogHistoryPageController());
-    final state = Get.find<LogHistoryPageController>().state;
 
-    return Container();
+    return Obx(() {
+      return ListView.builder(
+        itemBuilder: (context, index) {
+          return Column(
+            children: [
+              _dateHeader(controller.logEntityData[index].createTime.yYYYMMDDHHMMSS()),
+              _logContent(controller.logEntityData[index].content),
+            ],
+          );
+        },
+        itemCount: controller.logEntityData.length,
+      );
+    });
+  }
+
+  Widget _dateHeader(String date) {
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.only(top: 12),
+        decoration: const BoxDecoration(
+          color: Colors.white24,
+          borderRadius: BorderRadius.all(Radius.circular(15)),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+        child: Text(
+          date,
+          textAlign: TextAlign.center,
+          style: const TextStyle(inherit: false, fontSize: 12, color: Colors.white70),
+        ),
+      ),
+    );
+  }
+
+  Widget _logContent(String log) {
+    return Text(
+      log,
+      style: const TextStyle(inherit: false, fontSize: 15, color: Colors.white70),
+    ).paddingSymmetric(horizontal: 12).marginOnly(top: 8);
   }
 }
