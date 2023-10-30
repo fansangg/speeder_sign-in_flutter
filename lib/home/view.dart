@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
               style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme.of(Get.context!).primaryColor,
         ),
         body: Obx(() {
           return logic.loadingState.value
@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Text(
                     "公告",
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
+                    style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                   ),
                 );
               } else {

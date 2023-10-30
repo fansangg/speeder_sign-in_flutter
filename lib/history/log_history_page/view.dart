@@ -16,8 +16,8 @@ class LogHistoryPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return Column(
             children: [
-              _dateHeader(controller.logEntityData[index].createTime.yYYYMMDDHHMMSS()),
-              _logContent(controller.logEntityData[index].content),
+              _dateHeader(controller.logEntityData[index].createTime.yYYYMMDDHHMMSS(),context),
+              _logContent(controller.logEntityData[index].content,context),
             ],
           );
         },
@@ -26,12 +26,12 @@ class LogHistoryPage extends StatelessWidget {
     });
   }
 
-  Widget _dateHeader(String date) {
+  Widget _dateHeader(String date,BuildContext context) {
     return Center(
       child: Container(
         margin: const EdgeInsets.only(top: 12),
         decoration: BoxDecoration(
-          color: Theme.of(Get.context!).cardColor,
+          color: Theme.of(context).cardColor,
           borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
@@ -44,10 +44,10 @@ class LogHistoryPage extends StatelessWidget {
     );
   }
 
-  Widget _logContent(String log) {
+  Widget _logContent(String log,BuildContext context) {
     return Text(
       log,
-      style: Theme.of(Get.context!).textTheme.bodyMedium,
+      style: Theme.of(context).textTheme.bodyMedium,
     ).paddingSymmetric(horizontal: 12).marginOnly(top: 8);
   }
 }

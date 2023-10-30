@@ -13,7 +13,7 @@ class InfoHistoryPgae extends StatelessWidget {
 
     return Column(
       children: [
-        _header(),
+        _header(context),
         Obx(() {
           return Expanded(
             child: ListView.builder(
@@ -29,7 +29,7 @@ class InfoHistoryPgae extends StatelessWidget {
     );
   }
 
-  Widget _header() {
+  Widget _header(BuildContext context) {
     return SizedBox(
         height: 40,
         child: Row(
@@ -37,7 +37,7 @@ class InfoHistoryPgae extends StatelessWidget {
             Expanded(
               child: Text(
                 "日期",
-                style: Theme.of(Get.context!).textTheme.bodyMedium,
+                style: Theme.of(context).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ),
