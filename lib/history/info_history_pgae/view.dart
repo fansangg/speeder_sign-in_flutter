@@ -30,35 +30,35 @@ class InfoHistoryPgae extends StatelessWidget {
   }
 
   Widget _header() {
-    return const SizedBox(
+    return SizedBox(
         height: 40,
         child: Row(
           children: [
             Expanded(
               child: Text(
                 "日期",
-                style: TextStyle(inherit: false, fontSize: 13, color: Colors.white70),
+                style: Theme.of(Get.context!).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ),
             Expanded(
               child: Text(
                 "已使用",
-                style: TextStyle(inherit: false, fontSize: 13, color: Colors.white70),
+                style: Theme.of(Get.context!).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ),
             Expanded(
               child: Text(
                 "剩余",
-                style: TextStyle(inherit: false, fontSize: 13, color: Colors.white70),
+                style: Theme.of(Get.context!).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ),
             Expanded(
               child: Text(
                 "获得",
-                style: TextStyle(inherit: false, fontSize: 13, color: Colors.white70),
+                style: Theme.of(Get.context!).textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
             ),
@@ -85,16 +85,16 @@ class InfoHistoryPgae extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         border: Border(
-          top: BorderSide(color: Colors.white70, width: index == 0 ? 1 : 0.5),
-          left: BorderSide(color: Colors.white70, width:cellIndex == 0 ? 1 : 0.5),
-          right: BorderSide(color: Colors.white70, width: cellIndex == 3 ? 1 : 0.5),
-          bottom: BorderSide(color: Colors.white70, width: index == count - 1 ? 1 : 0.5),
+          top: BorderSide(color: Theme.of(Get.context!).dividerColor ,width: index == 0 ? 1 : 0.5),
+          left: BorderSide(color: Theme.of(Get.context!).dividerColor, width:cellIndex == 0 ? 1 : 0.5),
+          right: BorderSide(color: Theme.of(Get.context!).dividerColor, width: cellIndex == 3 ? 1 : 0.5),
+          bottom: BorderSide(color: Theme.of(Get.context!).dividerColor, width: index == count - 1 ? 1 : 0.5),
         ),
       ),
       alignment: Alignment.center,
       child: Text(
         content,
-        style: const TextStyle(inherit: false, fontSize: 13, color: Colors.white70),
+        style: Theme.of(Get.context!).textTheme.bodyMedium,
         textAlign: TextAlign.center,
       ),
     );

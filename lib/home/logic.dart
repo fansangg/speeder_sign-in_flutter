@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:drift/drift.dart' as v;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
+import 'package:logger/logger.dart';
 import 'package:speeder_sign_flutter/home/home_item_bean.dart';
 import 'package:speeder_sign_flutter/home/home_news_bean.dart';
 import 'package:speeder_sign_flutter/home/sigin_state.dart';
@@ -29,6 +32,11 @@ class HomeLogic extends GetxController {
       var ret = await dio.get("/user", options: Options(followRedirects: false));
       if (SignState.isSigin) {
         checkIn();
+        Future.delayed(const Duration(seconds: 3), () {
+          Logger().d("自动退出");
+          DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("自动退出")));
+          exit(0);
+        });
       }
       if (ret.statusCode == 200) {
         var userHtml = parse(ret.data);
@@ -60,15 +68,17 @@ class HomeLogic extends GetxController {
         if (infos.isNotEmpty) {
           final newInfo = infos.first.copyWith(usage: usage.value.des, remain: usage.value.value);
           DBHelper.infoDao.save(newInfo);
+          DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("已保存信息 ${newInfo.toString()}")));
         } else {
           final info = SpeederEntityCompanion.insert(
               date: DateTime.now().getSimple(), usage: v.Value(usage.value.des ?? ""), remain: v.Value(usage.value.value ?? ""));
           DBHelper.infoDao.save(info);
+          DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("已保存信息 ${info.toString()}")));
         }
       }
     } on DioException catch (e) {
       DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("获取首页详情失败 ${e.message}")));
-      print("error -- ${e.message}");
+      Logger().d("error -- ${e.message}");
       if (e.response?.statusCode == 302) {
         GetStorage().write("isLogin", false);
         Fluttertoast.showToast(msg: "token expired");
@@ -92,12 +102,12 @@ class HomeLogic extends GetxController {
           var reg = RegExp(r'\d+\s?[MB]*');
           var matches = reg.allMatches(ret['msg']);
           if (matches.isEmpty) {
-            print("没有匹配到获取信息");
+            Logger().d("没有匹配到获取信息");
             DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("没有匹配到流量信息")));
           } else {
             checkState.value = false;
             var value = matches.first.group(0);
-            print("匹配到 $value");
+            Logger().d("匹配到 $value");
             DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("获取到流量 $value")));
             final infos = await DBHelper.infoDao.getOne(DateTime.now().getSimple());
             if (infos.isNotEmpty) {
@@ -107,6 +117,7 @@ class HomeLogic extends GetxController {
           }
         } else {
           checkState.value = false;
+          DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("今天已经签到过了")));
         }
       }
     }

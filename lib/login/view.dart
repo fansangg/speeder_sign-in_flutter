@@ -11,13 +11,13 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xff111111),
+      backgroundColor: Theme.of(Get.context!).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           '登录',
-          style: TextStyle(color: Color(0xffd8d8d8)),
+          style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
         ),
-        backgroundColor: const Color(0xff181818),
+        backgroundColor: Theme.of(Get.context!).primaryColor,
         centerTitle: true,
       ),
       body: WillPopScope(
@@ -57,17 +57,17 @@ class LoginPage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.withAlpha(180)),
+        border: Border.all(color: Theme.of(Get.context!).primaryColorDark),
       ),
       child: TextField(
         controller: accountController,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: "请输入账号",
-          hintStyle: TextStyle(color: Colors.white60),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12),
+          hintStyle: Theme.of(Get.context!).textTheme.titleMedium,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           border: InputBorder.none,
         ),
-        style: const TextStyle(color: Colors.white70),
+        style: Theme.of(Get.context!).textTheme.bodyMedium,
         maxLines: 1,
         onChanged: (_) {
           logic.account = _;
@@ -82,18 +82,18 @@ class LoginPage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 24),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.withAlpha(180)),
+        border: Border.all(color: Theme.of(Get.context!).primaryColorDark),
       ),
       child: TextField(
         controller: pswController,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           hintText: "请输入密码",
-          hintStyle: TextStyle(color: Colors.white60),
-          contentPadding: EdgeInsets.symmetric(horizontal: 12),
+          hintStyle: Theme.of(Get.context!).textTheme.titleMedium,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 12),
           border: InputBorder.none,
         ),
         obscureText: true,
-        style: const TextStyle(color: Colors.white70),
+        style: Theme.of(Get.context!).textTheme.bodyMedium,
         maxLines: 1,
         onChanged: (_) {
           logic.psw = _;
@@ -110,11 +110,11 @@ class LoginPage extends StatelessWidget {
       child: Container(
         height: 50,
         margin: const EdgeInsets.symmetric(horizontal: 24),
-        decoration: BoxDecoration(color: Colors.lightBlue, borderRadius: BorderRadius.circular(16)),
-        child: const Center(
+        decoration: BoxDecoration(color: Theme.of(Get.context!).primaryColorDark, borderRadius: BorderRadius.circular(16)),
+        child: Center(
           child: Text(
             "登录",
-            style: TextStyle(color: Colors.white),
+            style: Theme.of(Get.context!).textTheme.bodyMedium,
           ),
         ),
       ),

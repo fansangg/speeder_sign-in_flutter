@@ -11,12 +11,12 @@ class HistoryPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        backgroundColor: const Color(0xff111111),
+        backgroundColor: Theme.of(Get.context!).scaffoldBackgroundColor,
         appBar: AppBar(
-          backgroundColor: const Color(0xff181818),
-          title: const Text(
+          backgroundColor: Theme.of(Get.context!).primaryColor,
+          title: Text(
             "History",
-            style: TextStyle(color: Colors.white70),
+            style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
           ),
           bottom: const TabBar(
             tabs: [

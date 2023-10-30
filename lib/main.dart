@@ -14,6 +14,7 @@ import 'package:speeder_sign_flutter/db/speeder_datebase.dart';
 import 'package:speeder_sign_flutter/home/sigin_state.dart';
 import 'package:speeder_sign_flutter/http/http.dart';
 import 'package:speeder_sign_flutter/route/route_config.dart';
+import 'package:speeder_sign_flutter/theme/my_theme.dart';
 
 void main() async {
   await GetStorage.init();
@@ -34,11 +35,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'sign',
       themeMode: ThemeMode.system,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.lightBlue),
-        useMaterial3: false,
-      ),
-      darkTheme: ThemeData.dark(useMaterial3: true),
+      theme: MyTheme.norTheme,
+      darkTheme: MyTheme.dart,
       initialRoute: GetStorage().read<bool>("isLogin") ?? false ? MyRouteConfig.home : MyRouteConfig.login,
       getPages: MyRouteConfig.routes,
     );

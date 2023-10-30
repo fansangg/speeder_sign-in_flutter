@@ -30,9 +30,9 @@ class LogHistoryPage extends StatelessWidget {
     return Center(
       child: Container(
         margin: const EdgeInsets.only(top: 12),
-        decoration: const BoxDecoration(
-          color: Colors.white24,
-          borderRadius: BorderRadius.all(Radius.circular(15)),
+        decoration: BoxDecoration(
+          color: Theme.of(Get.context!).cardColor,
+          borderRadius: const BorderRadius.all(Radius.circular(15)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         child: Text(
@@ -47,7 +47,7 @@ class LogHistoryPage extends StatelessWidget {
   Widget _logContent(String log) {
     return Text(
       log,
-      style: const TextStyle(inherit: false, fontSize: 15, color: Colors.white70),
+      style: Theme.of(Get.context!).textTheme.bodyMedium,
     ).paddingSymmetric(horizontal: 12).marginOnly(top: 8);
   }
 }

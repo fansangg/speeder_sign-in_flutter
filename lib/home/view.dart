@@ -13,18 +13,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xff111111),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         appBar: AppBar(
           title: GestureDetector(
             onTap: () {
               Get.toNamed(MyRouteConfig.history);
             },
-            child: const Text(
+            child: Text(
               'Home',
-              style: TextStyle(color: Color(0xffd8d8d8)),
+              style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
-          backgroundColor: const Color(0xff181818),
+          backgroundColor: Theme.of(context).primaryColor,
         ),
         body: Obx(() {
           return logic.loadingState.value
@@ -52,13 +52,9 @@ class HomePage extends StatelessWidget {
                 return Container(
                   height: 30,
                   alignment: Alignment.center,
-                  child: const Text(
+                  child: Text(
                     "公告",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.white60,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                   ),
                 );
               } else {
@@ -87,7 +83,7 @@ class HomePage extends StatelessWidget {
   Widget infoCard(IconData icon, HomeItemBean bean) {
     return Card(
       elevation: 10,
-      color: const Color(0xff242424),
+      color: Theme.of(Get.context!).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: SizedBox(
         height: 130,
@@ -103,7 +99,7 @@ class HomePage extends StatelessWidget {
                     Icon(
                       icon,
                       size: 40,
-                      color: Colors.lightBlue,
+                      color: Theme.of(Get.context!).primaryColorDark,
                     ),
                     Expanded(
                       child: Column(
@@ -112,11 +108,11 @@ class HomePage extends StatelessWidget {
                         children: [
                           Text(
                             bean.title ?? "",
-                            style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Color(0xff5d5d5d)),
+                            style: Theme.of(Get.context!).textTheme.labelLarge?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           Text(
                             bean.value ?? "",
-                            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xffd8d8d8)),
+                            style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
@@ -132,12 +128,12 @@ class HomePage extends StatelessWidget {
                   margin: const EdgeInsets.symmetric(vertical: 8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
-                    color: const Color(0xFF616b8f),
+                    color: Theme.of(Get.context!).primaryColorDark,
                   ),
                   child: Center(
                     child: Text(
                       bean.des ?? "",
-                      style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white54),
+                      style: Theme.of(Get.context!).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold,fontSize: 10),
                       maxLines: 2,
                     ),
                   ),
@@ -152,7 +148,7 @@ class HomePage extends StatelessWidget {
 
   Widget _newsItem(String title, String content) {
     return Card(
-      color: const Color(0xff242424),
+      color: Theme.of(Get.context!).cardColor,
       elevation: 10,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -161,14 +157,14 @@ class HomePage extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(fontSize: 16, color: Colors.white60, fontWeight: FontWeight.w700),
+              style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
             ),
             const SizedBox(
               height: 12,
             ),
             Text(
               content,
-              style: const TextStyle(fontSize: 12, color: Colors.white70, fontWeight: FontWeight.w500),
+              style: Theme.of(Get.context!).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
             ),
           ],
         ),
@@ -179,9 +175,9 @@ class HomePage extends StatelessWidget {
   Widget checkBtn() {
     return FloatingActionButton.extended(
       onPressed: () => logic.checkIn(),
-      label: Text(logic.checkState.value ? "签到" : "已签到"),
+      label: Text(logic.checkState.value ? "签到" : "已签到",style: Theme.of(Get.context!).textTheme.bodySmall,),
       icon: const Icon(Icons.check_circle_rounded),
-      backgroundColor: const Color(0xFF616b8f),
+      backgroundColor: Theme.of(Get.context!).primaryColorDark,
     );
   }
 }
