@@ -18,8 +18,14 @@ class HistoryPage extends StatelessWidget {
             "History",
             style: Theme.of(Get.context!).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
           ),
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            dividerColor: Theme.of(context).scaffoldBackgroundColor,
+            indicatorColor: Theme.of(context).primaryColorDark,
+            labelColor: Theme.of(context).textTheme.bodyMedium?.color,
+            unselectedLabelColor: Theme.of(context).textTheme.titleMedium?.color,
+            labelStyle: Theme.of(context).textTheme.bodyMedium,
+            unselectedLabelStyle: Theme.of(context).textTheme.bodyMedium,
+            tabs: const [
               Tab(
                 text: "info",
               ),
