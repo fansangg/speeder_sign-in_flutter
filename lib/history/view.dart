@@ -39,8 +39,8 @@ class HistoryPage extends StatelessWidget {
         ),
         body: const TabBarView(
           children: [
-            KeepAlive(keepAlive: true, child: InfoHistoryPgae()),
-            KeepAlive(keepAlive: true, child: LogHistoryPage()),
+            InfoHistoryPgae(),
+            LogHistoryPage(),
           ],
         ),
       ),
