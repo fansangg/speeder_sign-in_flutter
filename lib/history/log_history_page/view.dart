@@ -22,7 +22,7 @@ class LogHistoryPage extends StatelessWidget {
           );
         },
         itemCount: controller.logEntityData.length,
-      );
+      ).paddingSymmetric(vertical: 20);
     });
   }
 

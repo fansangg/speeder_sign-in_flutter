@@ -22,7 +22,7 @@ class InfoHistoryPgae extends StatelessWidget {
               },
               itemExtent: 60,
               itemCount: controller.historyList.length,
-            ),
+            ).paddingSymmetric(vertical: 8),
           );
         }),
       ],

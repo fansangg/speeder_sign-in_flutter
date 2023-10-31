@@ -33,8 +33,8 @@ class HomeLogic extends GetxController {
       if (SignState.isSigin) {
         checkIn();
         Future.delayed(const Duration(seconds: 3), () {
-          Logger().d("自动退出");
           DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("自动退出")));
+          Logger().d("自动退出");
           exit(0);
         });
       }
