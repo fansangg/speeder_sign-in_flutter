@@ -43,7 +43,7 @@ class HomeLogic extends GetxController {
         _parserNews(userHtml);
         var cardElement = userHtml.querySelectorAll(".col-lg-3.col-md-3.col-sm-12");
         var checkElement = userHtml.querySelector(".btn.btn-icon.icon-left.btn-primary");
-        checkElement?.text.trim() == "每日签到" ? checkState.value = true : checkState.value = false;
+        checkElement?.text.contains("每日签到")??false ? checkState.value = true : checkState.value = false;
         cardElement.asMap().forEach((key, value) {
           switch (key) {
             case 0:
@@ -91,7 +91,7 @@ class HomeLogic extends GetxController {
   }
 
   void checkIn() async {
-    if (checkState.isFalse) {
+    if (checkState.isTrue) {
       DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("开始签到")));
       var rep = await dio.post("user/checkin");
       if (rep.statusCode == 200) {
