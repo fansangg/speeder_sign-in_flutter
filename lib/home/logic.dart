@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as d;
 import 'package:drift/drift.dart' as v;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -29,21 +29,14 @@ class HomeLogic extends GetxController {
 
   void getHtml() async {
     try {
-      var ret = await dio.get("/user", options: Options(followRedirects: false));
-      if (SignState.isSigin) {
-        checkIn();
-        Future.delayed(const Duration(seconds: 3), () {
-          DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("自动退出")));
-          Logger().d("自动退出");
-          exit(0);
-        });
-      }
+      var ret = await dio.get("/user", options: d.Options(followRedirects: false));
       if (ret.statusCode == 200) {
         var userHtml = parse(ret.data);
         _parserNews(userHtml);
         var cardElement = userHtml.querySelectorAll(".col-lg-3.col-md-3.col-sm-12");
         var checkElement = userHtml.querySelector(".btn.btn-icon.icon-left.btn-primary");
         checkElement?.text.contains("每日签到")??false ? checkState.value = true : checkState.value = false;
+        autoCheckIn();
         cardElement.asMap().forEach((key, value) {
           switch (key) {
             case 0:
@@ -76,18 +69,45 @@ class HomeLogic extends GetxController {
           DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("已保存信息 ${info.toString()}")));
         }
       }
-    } on DioException catch (e) {
+    } on d.DioException catch (e) {
       DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("获取首页详情失败 ${e.message}")));
       Logger().d("error -- ${e.message}");
       if (e.response?.statusCode == 302) {
-        GetStorage().write("isLogin", false);
-        Fluttertoast.showToast(msg: "token expired");
-        DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("登录信息失效")));
-        Get.offNamed(MyRouteConfig.login);
+        var ret = await autoLogin();
+        if(ret == 200){
+          getHtml();
+        }else {
+          GetStorage().write("isLogin", false);
+          Fluttertoast.showToast(msg: "token expired");
+          DBHelper.logDao.saveOne(LogEntityCompanion.insert(
+              content: const v.Value("登录信息失效")));
+          Get.offNamed(MyRouteConfig.login);
+        }
       }
     } finally {
       loadingState.value = false;
     }
+  }
+
+  void autoCheckIn() {
+    if (SignState.isSigin) {
+      checkIn();
+      Future.delayed(const Duration(seconds: 5), () {
+        DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: const v.Value("自动退出")));
+        Logger().d("自动退出");
+        exitApp();
+      });
+    }
+  }
+
+  void exitApp(){
+    2.delay(() => exit(0));
+  }
+
+  Future<int> autoLogin() async {
+    var formData = d.FormData.fromMap({"email": GetStorage().read<String>("email")??"", "passwd": GetStorage().read<String>("psw")??"", "code": "", "remember_me": "on"});
+    var loginRet = await dio.post("auth/login", data: formData,);
+    return loginRet.statusCode??0;
   }
 
   void checkIn() async {
