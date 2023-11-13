@@ -11,6 +11,7 @@ class SpeederEntity extends Table{
   TextColumn get usage => text().withDefault(Constant(""))();
   TextColumn get remain => text().withDefault(Constant(""))();
   TextColumn get award => text().withDefault(Constant("无"))();
+  DateTimeColumn get createTime => dateTime().nullable()();
   @override
   Set<Column> get primaryKey => {date};
 }

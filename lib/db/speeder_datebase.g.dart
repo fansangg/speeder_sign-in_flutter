@@ -35,8 +35,15 @@ class $SpeederEntityTable extends SpeederEntity
       type: DriftSqlType.string,
       requiredDuringInsert: false,
       defaultValue: Constant("无"));
+  static const VerificationMeta _createTimeMeta =
+      const VerificationMeta('createTime');
   @override
-  List<GeneratedColumn> get $columns => [date, usage, remain, award];
+  late final GeneratedColumn<DateTime> createTime = GeneratedColumn<DateTime>(
+      'create_time', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [date, usage, remain, award, createTime];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -65,6 +72,12 @@ class $SpeederEntityTable extends SpeederEntity
       context.handle(
           _awardMeta, award.isAcceptableOrUnknown(data['award']!, _awardMeta));
     }
+    if (data.containsKey('create_time')) {
+      context.handle(
+          _createTimeMeta,
+          createTime.isAcceptableOrUnknown(
+              data['create_time']!, _createTimeMeta));
+    }
     return context;
   }
 
@@ -82,6 +95,8 @@ class $SpeederEntityTable extends SpeederEntity
           .read(DriftSqlType.string, data['${effectivePrefix}remain'])!,
       award: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}award'])!,
+      createTime: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}create_time']),
     );
   }
 
@@ -97,11 +112,13 @@ class SpeederEntityData extends DataClass
   final String usage;
   final String remain;
   final String award;
+  final DateTime? createTime;
   const SpeederEntityData(
       {required this.date,
       required this.usage,
       required this.remain,
-      required this.award});
+      required this.award,
+      this.createTime});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -109,6 +126,9 @@ class SpeederEntityData extends DataClass
     map['usage'] = Variable<String>(usage);
     map['remain'] = Variable<String>(remain);
     map['award'] = Variable<String>(award);
+    if (!nullToAbsent || createTime != null) {
+      map['create_time'] = Variable<DateTime>(createTime);
+    }
     return map;
   }
 
@@ -118,6 +138,9 @@ class SpeederEntityData extends DataClass
       usage: Value(usage),
       remain: Value(remain),
       award: Value(award),
+      createTime: createTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createTime),
     );
   }
 
@@ -129,6 +152,7 @@ class SpeederEntityData extends DataClass
       usage: serializer.fromJson<String>(json['usage']),
       remain: serializer.fromJson<String>(json['remain']),
       award: serializer.fromJson<String>(json['award']),
+      createTime: serializer.fromJson<DateTime?>(json['createTime']),
     );
   }
   @override
@@ -139,16 +163,22 @@ class SpeederEntityData extends DataClass
       'usage': serializer.toJson<String>(usage),
       'remain': serializer.toJson<String>(remain),
       'award': serializer.toJson<String>(award),
+      'createTime': serializer.toJson<DateTime?>(createTime),
     };
   }
 
   SpeederEntityData copyWith(
-          {String? date, String? usage, String? remain, String? award}) =>
+          {String? date,
+          String? usage,
+          String? remain,
+          String? award,
+          Value<DateTime?> createTime = const Value.absent()}) =>
       SpeederEntityData(
         date: date ?? this.date,
         usage: usage ?? this.usage,
         remain: remain ?? this.remain,
         award: award ?? this.award,
+        createTime: createTime.present ? createTime.value : this.createTime,
       );
   @override
   String toString() {
@@ -156,13 +186,14 @@ class SpeederEntityData extends DataClass
           ..write('date: $date, ')
           ..write('usage: $usage, ')
           ..write('remain: $remain, ')
-          ..write('award: $award')
+          ..write('award: $award, ')
+          ..write('createTime: $createTime')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(date, usage, remain, award);
+  int get hashCode => Object.hash(date, usage, remain, award, createTime);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -170,7 +201,8 @@ class SpeederEntityData extends DataClass
           other.date == this.date &&
           other.usage == this.usage &&
           other.remain == this.remain &&
-          other.award == this.award);
+          other.award == this.award &&
+          other.createTime == this.createTime);
 }
 
 class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
@@ -178,12 +210,14 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
   final Value<String> usage;
   final Value<String> remain;
   final Value<String> award;
+  final Value<DateTime?> createTime;
   final Value<int> rowid;
   const SpeederEntityCompanion({
     this.date = const Value.absent(),
     this.usage = const Value.absent(),
     this.remain = const Value.absent(),
     this.award = const Value.absent(),
+    this.createTime = const Value.absent(),
     this.rowid = const Value.absent(),
   });
   SpeederEntityCompanion.insert({
@@ -191,6 +225,7 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
     this.usage = const Value.absent(),
     this.remain = const Value.absent(),
     this.award = const Value.absent(),
+    this.createTime = const Value.absent(),
     this.rowid = const Value.absent(),
   }) : date = Value(date);
   static Insertable<SpeederEntityData> custom({
@@ -198,6 +233,7 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
     Expression<String>? usage,
     Expression<String>? remain,
     Expression<String>? award,
+    Expression<DateTime>? createTime,
     Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
@@ -205,6 +241,7 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
       if (usage != null) 'usage': usage,
       if (remain != null) 'remain': remain,
       if (award != null) 'award': award,
+      if (createTime != null) 'create_time': createTime,
       if (rowid != null) 'rowid': rowid,
     });
   }
@@ -214,12 +251,14 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
       Value<String>? usage,
       Value<String>? remain,
       Value<String>? award,
+      Value<DateTime?>? createTime,
       Value<int>? rowid}) {
     return SpeederEntityCompanion(
       date: date ?? this.date,
       usage: usage ?? this.usage,
       remain: remain ?? this.remain,
       award: award ?? this.award,
+      createTime: createTime ?? this.createTime,
       rowid: rowid ?? this.rowid,
     );
   }
@@ -239,6 +278,9 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
     if (award.present) {
       map['award'] = Variable<String>(award.value);
     }
+    if (createTime.present) {
+      map['create_time'] = Variable<DateTime>(createTime.value);
+    }
     if (rowid.present) {
       map['rowid'] = Variable<int>(rowid.value);
     }
@@ -252,6 +294,7 @@ class SpeederEntityCompanion extends UpdateCompanion<SpeederEntityData> {
           ..write('usage: $usage, ')
           ..write('remain: $remain, ')
           ..write('award: $award, ')
+          ..write('createTime: $createTime, ')
           ..write('rowid: $rowid')
           ..write(')'))
         .toString();

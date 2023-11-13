@@ -27,4 +27,17 @@ class InfoDao extends DatabaseAccessor<SpeederDatebase> with _$InfoDaoMixin {
   void save(Insertable<SpeederEntityData> entity) {
     into(speederEntity).insertOnConflictUpdate(entity);
   }
+
+  /*void updateAll() async {
+    var rows = await select(speederEntity).addColumns([speederEntity.date]).get();
+    for (var value in rows) {
+      var date = value.read(speederEntity.date)??"1970-01-01";
+      var list = date.split("-");
+      var newDateTime = DateTime(int.parse(list[0]),int.parse(list[1]),int.parse(list[2])).getSimple();
+      var newDate = DateTime.parse(newDateTime);
+      update(speederEntity)
+        ..where((tbl) => tbl.date.equals(date))
+        ..write(SpeederEntityCompanion.insert(date: newDateTime,createTime: Value(newDate)));
+    }
+  }*/
 }

@@ -64,9 +64,13 @@ class HomeLogic extends GetxController {
           DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("已保存信息 ${newInfo.toString()}")));
         } else {
           final info = SpeederEntityCompanion.insert(
-              date: DateTime.now().getSimple(), usage: v.Value(usage.value.des ?? ""), remain: v.Value(usage.value.value ?? ""));
+              date: DateTime.now().getSimple(),
+              usage: v.Value(usage.value.des ?? ""),
+              remain: v.Value(usage.value.value ?? ""),
+              createTime: v.Value(DateTime.now()));
           DBHelper.infoDao.save(info);
-          DBHelper.logDao.saveOne(LogEntityCompanion.insert(content: v.Value("已保存信息 ${info.toString()}")));
+          DBHelper.logDao.saveOne(LogEntityCompanion.insert(
+              content: v.Value("已保存信息 ${info.toString()}")));
         }
       }
     } on d.DioException catch (e) {

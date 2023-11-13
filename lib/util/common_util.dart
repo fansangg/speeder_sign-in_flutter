@@ -8,11 +8,18 @@ import 'package:flutter/cupertino.dart';
 
 extension DateExtension on DateTime {
   String getSimple() {
-    return "$year-$month-$day";
+    var newDay = day < 10 ? "0$day" : day;
+    var newMonth = month < 10 ? "0$month" : month;
+    return "$year-$newMonth-$newDay";
   }
 
   String yYYYMMDDHHMMSS() {
-    return "$year-$month-$day $hour:$minute:$second";
+    var newMonth = month < 10 ? "0$month" : month;
+    var newDay = day < 10 ? "0$day" : day;
+    var newHour = hour < 10 ? "0$hour" : hour;
+    var newMinute = minute < 10 ? "0$minute" : minute;
+    var newSecond = second < 10 ? "0$second" : second;
+    return "$year-$newMonth-$newDay $newHour:$newMinute:$newSecond";
   }
 }
 
